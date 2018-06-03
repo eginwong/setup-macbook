@@ -41,6 +41,13 @@ else
 fi
 }
 
+ruby_update() {
+  echo "RUBY:: currently at $(ruby -v)"
+  echo "RUBY:: updating"
+  brew install ruby
+  echo "RUBY:: updated"
+}
+
 
 main() {
 
@@ -55,6 +62,7 @@ cd dev || exit
 setup_alias
 
 homebrew
+ruby_update
 
 # return to home
 cd ~
@@ -67,4 +75,3 @@ main
 # TRY TO GET BREW INSTALL TO WORK visual-studio-code
 # GIT
 # VSCODE: https://code.visualstudio.com/download
-# need to update RUBY too
