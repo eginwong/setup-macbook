@@ -12,7 +12,7 @@
 
 # METHODS
 create_dev_folder() {
-  if [ ! -d "dev" ]; then
+  if [[ ! -d dev ]]; then
     echo "LOG: create dev folder"
     mkdir dev
   fi
@@ -21,7 +21,7 @@ create_dev_folder() {
 setup_alias() {
   ALIASLL="alias ll='ls -Al'"
   
-  if [[ -e ~/.bash_profile ]] && grep -qF "$ALIASLL" ~/.bash_profile;then
+  if [[ -e ~/.bash_profile ]] && grep -qF "$ALIASLL" ~/.bash_profile; then
     echo "alias already present"
   else
     echo $ALIASLL >> ~/.bash_profile
@@ -30,39 +30,45 @@ setup_alias() {
   . ~/.bash_profile
 }
 
-homebrew() {
-  if which brew | grep -q 'no brew' || [[ $(which brew | head -c1 | wc -c) -eq 0 ]]; then
-    echo "HOMEBREW:: not installed"
-    # From the website: https://brew.sh/ -20180602
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    homebrew
-  else
-    echo "HOMEBREW:: installed"
-  fi
+# INSTALLATIONS 
+
+install_brew() {
+  # From the website: https://brew.sh/ -20180602
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
 
-
-ruby_update() {
-  echo "RUBY:: currently at $(ruby -v)"
-  echo "RUBY:: updating"
+install_ruby() {
   brew install ruby
-  echo "RUBY:: updated"
 }
 
-vscode() {
-  if which code | grep -q 'no code' || [[ $(which code | head -c1 | wc -c) -eq 0 ]]; then
-    echo "VSCODE:: not installed"
-    brew install homebrew/cask/visual-studio-code
-    vscode
+install_vscode() {
+  brew install homebrew/cask/visual-studio-code
+}
+
+## 
+# Verify program method checks if program is installed on the system. If not, it will run the second parameter
+# which should be a method to install the desired program. Afterwards, the method will call itself to verify
+# that the program has actually been installed correctly.
+#
+# Note: make sure that the first if condition will be met after installation. Otherwise, infinite loop
+#
+# $1 program name which is known to /usr/bin or /usr/local/bin to verify if program exists
+# $2 method for installation of desired program
+##
+verify_program() {
+  if which $1 | grep -q 'no ${1}' || [[ $(which $1 | head -c1 | wc -c) -eq 0 ]]; then
+    echo ${1}":: not installed" | awk '{print toupper($0)}'
+    $2
+    verify_program $1 $2
   else
-    echo "VSCODE:: installed"
+    echo ${1}":: installed" | awk '{print toupper($0)}'
   fi
 }
 
-code_extensions() {
+install_code_extensions() {
   if [[ $(code --list-extensions | grep 'shakram02.bash-beautify' | head -c1 | wc -c) -eq 0 ]]; then
     code --install-extension shakram02.bash-beautify
-    code_extensions
+    install_code_extensions
   else
     echo "VSCODE:: extensions installed"
   fi
@@ -79,10 +85,10 @@ main() {
   
   setup_alias
   
-  homebrew
-  ruby_update
-  vscode
-  code_extensions
+  verify_program brew install_brew
+  verify_program ruby install_ruby
+  verify_program code install_vscode
+  install_code_extensions
   
   # return to home
   cd ~
