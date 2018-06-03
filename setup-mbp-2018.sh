@@ -30,6 +30,18 @@ fi
 . ~/.bash_profile
 }
 
+homebrew() {
+if which brew | grep -q 'no brew' || [[ $(which brew | head -c1 | wc -c) -eq 0 ]]; then
+  echo "HOMEBREW:: not installed"
+  # From the website: https://brew.sh/ -20180602
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  homebrew
+else
+  echo "HOMEBREW:: installed"
+fi
+}
+
+
 main() {
 
 # create main working folder
@@ -42,6 +54,8 @@ cd dev || exit
 
 setup_alias
 
+homebrew
+
 # return to home
 cd ~
 
@@ -53,3 +67,4 @@ main
 # TRY TO GET BREW INSTALL TO WORK visual-studio-code
 # GIT
 # VSCODE: https://code.visualstudio.com/download
+# need to update RUBY too
