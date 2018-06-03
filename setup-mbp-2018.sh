@@ -41,6 +41,16 @@ else
 fi
 }
 
+vscode() {
+if which code | grep -q 'no code' || [[ $(which code | head -c1 | wc -c) -eq 0 ]]; then
+  echo "VSCODE:: not installed"
+  brew install homebrew/cask/visual-studio-code
+  vscode
+else
+  echo "VSCODE:: installed"
+fi
+}
+
 ruby_update() {
   echo "RUBY:: currently at $(ruby -v)"
   echo "RUBY:: updating"
@@ -63,6 +73,7 @@ setup_alias
 
 homebrew
 ruby_update
+vscode
 
 # return to home
 cd ~
