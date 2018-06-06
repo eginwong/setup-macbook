@@ -19,14 +19,18 @@ create_dev_folder() {
 }
 
 setup_alias() {
-  ALIASLL="alias ll='ls -Al'"
+  ALIASLL=("alias ll='ls -Al'")
   
-  if [[ -e ~/.bash_profile ]] && grep -qF "$ALIASLL" ~/.bash_profile; then
-    echo "alias already present"
+  if [[ -e ~/.bash_profile ]] && grep -qF "${ALIASLL[*]}" ~/.bash_profile; then
+    echo "ALIAS:: INSTALLED"
   else
-    echo $ALIASLL >> ~/.bash_profile
+    echo "ALIAS:: NOT INSTALLED"
+    echo "${ALIASLL[*]}" >> ~/.bash_profile
+    setup_alias
   fi
   
+  # shellcheck disable=SC1091
+  # shellcheck source=~
   . ~/.bash_profile
 }
 
@@ -60,22 +64,22 @@ install_slack() {
 # $2 method for installation of desired program
 ##
 verify_program() {
-  if which $1 | grep -q 'no ${1}' || [[ $(which $1 | head -c1 | wc -c) -eq 0 ]]; then
-    echo ${1}":: not installed" | awk '{print toupper($0)}'
+  if "$1" -v | grep -q "no ${1}" || [[ $("$1" -v | head -c1 | wc -c) -eq 0 ]]; then
+    echo "${1}:: not installed" | awk '{print toupper($0)}'
     $2
-    verify_program $1 $2
+    verify_program "$1" "$2"
   else
-    echo ${1}":: installed" | awk '{print toupper($0)}'
+    echo "${1}:: installed" | awk '{print toupper($0)}'
   fi
 }
 
 verify_cask() {
-  if [[ $(brew cask list | grep $1 | head -c1 | wc -c) -eq 0 ]]; then
-    echo ${1}":: not installed" | awk '{print toupper($0)}'
+  if [[ $(brew cask list | grep "$1" | head -c1 | wc -c) -eq 0 ]]; then
+    echo "${1}:: not installed" | awk '{print toupper($0)}'
     $2
-    verify_cask $1 $2
+    verify_cask "$1" "$2"
   else
-    echo ${1}":: installed" | awk '{print toupper($0)}'
+    echo "${1}:: installed" | awk '{print toupper($0)}'
   fi
 }
 
@@ -112,7 +116,7 @@ main() {
 
 main
 
-# TODO:   skype, slack, java, google-chrome, transmission, dropbox, node, python
+# TODO:   skype, java, google-chrome, transmission, dropbox, node, python
 # # TODO: git configs
 #   "merge.ff false"
 #   "pull.rebase true"
