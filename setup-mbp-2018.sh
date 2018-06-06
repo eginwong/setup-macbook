@@ -45,6 +45,10 @@ install_vscode() {
   brew install homebrew/cask/visual-studio-code
 }
 
+install_slack() {
+  brew cask install slack
+}
+
 ## 
 # Verify program method checks if program is installed on the system. If not, it will run the second parameter
 # which should be a method to install the desired program. Afterwards, the method will call itself to verify
@@ -60,6 +64,16 @@ verify_program() {
     echo ${1}":: not installed" | awk '{print toupper($0)}'
     $2
     verify_program $1 $2
+  else
+    echo ${1}":: installed" | awk '{print toupper($0)}'
+  fi
+}
+
+verify_cask() {
+  if [[ $(brew cask list | grep $1 | head -c1 | wc -c) -eq 0 ]]; then
+    echo ${1}":: not installed" | awk '{print toupper($0)}'
+    $2
+    verify_cask $1 $2
   else
     echo ${1}":: installed" | awk '{print toupper($0)}'
   fi
@@ -88,10 +102,21 @@ main() {
   verify_program brew install_brew
   verify_program ruby install_ruby
   verify_program code install_vscode
+  verify_cask slack install_slack
+
   install_code_extensions
   
   # return to home
-  cd ~
+  cd ~ || exit
 }
 
 main
+
+# TODO:   skype, slack, java, google-chrome, transmission, dropbox, node, python
+# # TODO: git configs
+#   "merge.ff false"
+#   "pull.rebase true"
+#     "user.name pathikrit"
+#   "user.email pathikritbhowmick@msn.com"
+
+  # inspiration https://github.com/pathikrit/mac-setup-script/blob/master/setup.sh
