@@ -34,6 +34,20 @@ setup_alias() {
   . ~/.bash_profile
 }
 
+casks=(
+  slack
+  insomnia
+  java
+  dropbox
+  skype
+  transmission
+)
+
+brews=(
+  ruby
+  node
+)
+
 # INSTALLATIONS 
 
 install_brew() {
@@ -41,16 +55,16 @@ install_brew() {
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
 
-install_ruby() {
-  brew install ruby
+brew_install() {
+  brew install "$1"
 }
 
 install_vscode() {
   brew install homebrew/cask/visual-studio-code
 }
 
-install_slack() {
-  brew cask install slack
+install_cask() {
+  brew cask install "$1"
 }
 
 ## 
@@ -73,11 +87,21 @@ verify_program() {
   fi
 }
 
+verify_brew() {
+  if "$1" --version | grep -q "no ${1}" || [[ $("$1" --version | head -c1 | wc -c) -eq 0 ]]; then
+    echo "${1}:: not installed" | awk '{print toupper($0)}'
+    brew_install "$1"
+    verify_brew "$1"
+  else
+    echo "${1}:: installed" | awk '{print toupper($0)}'
+  fi
+}
+
 verify_cask() {
   if [[ $(brew cask list | grep "$1" | head -c1 | wc -c) -eq 0 ]]; then
     echo "${1}:: not installed" | awk '{print toupper($0)}'
-    $2
-    verify_cask "$1" "$2"
+    install_cask "$1"
+    verify_cask "$1"
   else
     echo "${1}:: installed" | awk '{print toupper($0)}'
   fi
@@ -104,9 +128,19 @@ main() {
   setup_alias
   
   verify_program brew install_brew
-  verify_program ruby install_ruby
+  for BREW in "${brews[@]}" 
+  do 
+    :
+    verify_brew "$BREW"
+  done
+
   verify_program code install_vscode
-  verify_cask slack install_slack
+
+  for CASK in "${casks[@]}" 
+  do 
+    :
+    verify_cask "$CASK"
+  done
 
   install_code_extensions
   
@@ -116,7 +150,8 @@ main() {
 
 main
 
-# TODO:   skype, java, google-chrome, transmission, dropbox, node, python
+# TODO:   google-chrome
+# TODO: NODE AT LTS VERSION
 # # TODO: git configs
 #   "merge.ff false"
 #   "pull.rebase true"
