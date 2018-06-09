@@ -18,54 +18,18 @@ create_dev_folder() {
   fi
 }
 
-setup_alias() {
-  ALIASLL=("alias ll='ls -Al'")
-  
-  if [[ -e ~/.bash_profile ]] && grep -qF "${ALIASLL[*]}" ~/.bash_profile; then
-    echo "ALIAS:: INSTALLED"
-  else
-    echo "ALIAS:: NOT INSTALLED"
-    echo "${ALIASLL[*]}" >> ~/.bash_profile
-    setup_alias
-  fi
-  
-  # shellcheck disable=SC1091
-  # shellcheck source=~
-  . ~/.bash_profile
-}
-
-casks=(
-  slack
-  insomnia
-  java
-  dropbox
-  skype
-  transmission
-)
-
-brews=(
-  ruby
-  node
-)
-
 # INSTALLATIONS 
 
-install_brew() {
+install_base_brew() {
   # From the website: https://brew.sh/ -20180602
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-}
-
-brew_install() {
-  brew install "$1"
 }
 
 install_vscode() {
   brew install homebrew/cask/visual-studio-code
 }
 
-install_cask() {
-  brew cask install "$1"
-}
+
 
 ## 
 # Verify program method checks if program is installed on the system. If not, it will run the second parameter
@@ -87,26 +51,6 @@ verify_program() {
   fi
 }
 
-verify_brew() {
-  if "$1" --version | grep -q "no ${1}" || [[ $("$1" --version | head -c1 | wc -c) -eq 0 ]]; then
-    echo "${1}:: not installed" | awk '{print toupper($0)}'
-    brew_install "$1"
-    verify_brew "$1"
-  else
-    echo "${1}:: installed" | awk '{print toupper($0)}'
-  fi
-}
-
-verify_cask() {
-  if [[ $(brew cask list | grep "$1" | head -c1 | wc -c) -eq 0 ]]; then
-    echo "${1}:: not installed" | awk '{print toupper($0)}'
-    install_cask "$1"
-    verify_cask "$1"
-  else
-    echo "${1}:: installed" | awk '{print toupper($0)}'
-  fi
-}
-
 install_code_extensions() {
   if [[ $(code --list-extensions | grep 'shakram02.bash-beautify' | head -c1 | wc -c) -eq 0 ]]; then
     code --install-extension shakram02.bash-beautify
@@ -117,6 +61,10 @@ install_code_extensions() {
 }
 
 main() {
+  # import other scripts
+  . constants/alias.sh
+  . constants/brews.sh
+  . constants/casks.sh
   # create main working folder
   cd ~ || exit
   
@@ -127,7 +75,7 @@ main() {
   
   setup_alias
   
-  verify_program brew install_brew
+  verify_program brew install_base_brew
   for BREW in "${brews[@]}" 
   do 
     :
