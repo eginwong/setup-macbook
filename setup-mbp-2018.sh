@@ -18,8 +18,6 @@ create_dev_folder() {
   fi
 }
 
-# INSTALLATIONS 
-
 install_base_brew() {
   # From the website: https://brew.sh/ -20180602
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -28,8 +26,6 @@ install_base_brew() {
 install_vscode() {
   brew install homebrew/cask/visual-studio-code
 }
-
-
 
 ## 
 # Verify program method checks if program is installed on the system. If not, it will run the second parameter
@@ -62,9 +58,10 @@ install_code_extensions() {
 
 main() {
   # import other scripts
-  . constants/alias.sh
-  . constants/brews.sh
-  . constants/casks.sh
+  . lib/alias.sh
+  . lib/brews.sh
+  . lib/casks.sh
+
   # create main working folder
   cd ~ || exit
   
@@ -76,19 +73,11 @@ main() {
   setup_alias
   
   verify_program brew install_base_brew
-  for BREW in "${brews[@]}" 
-  do 
-    :
-    verify_brew "$BREW"
-  done
+  batch_install_brews
 
   verify_program code install_vscode
 
-  for CASK in "${casks[@]}" 
-  do 
-    :
-    verify_cask "$CASK"
-  done
+  batch_install_casks
 
   install_code_extensions
   
