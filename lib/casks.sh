@@ -1,12 +1,15 @@
 casks=(
+  calibre
   dropbox
+  google-backup-and-sync # google-drive
+  google-chrome
   insomnia
   java
   skype
   slack
   steam
   transmission
-  google-backup-and-sync # google-drive
+  vlc
 )
 
 # verify if cask is present. If not, install. If yes, do nothing.

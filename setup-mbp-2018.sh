@@ -80,6 +80,10 @@ main() {
   batch_install_casks
 
   install_code_extensions
+
+  # cleanup
+  brew cleanup --force
+  rm -f -r /Library/Caches/Homebrew/*
   
   # return to home
   cd ~ || exit
@@ -87,8 +91,8 @@ main() {
 
 main
 
-# TODO:   google-chrome
 # TODO: NODE AT LTS VERSION
+# gem install bundler
 # # TODO: git configs
 #   "merge.ff false"
 #   "pull.rebase true"
@@ -96,3 +100,4 @@ main
 #   "user.email pathikritbhowmick@msn.com"
 
   # inspiration https://github.com/pathikrit/mac-setup-script/blob/master/setup.sh
+  # https://www.shellcheck.net/#
