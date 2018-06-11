@@ -6,6 +6,7 @@ casks=(
   slack
   steam
   transmission
+  google-backup-and-sync # google-drive
 )
 
 # verify if cask is present. If not, install. If yes, do nothing.
