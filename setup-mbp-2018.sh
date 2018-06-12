@@ -61,6 +61,7 @@ main() {
   . lib/alias.sh
   . lib/brews.sh
   . lib/casks.sh
+  . lib/gems.sh
 
   # create main working folder
   cd ~ || exit
@@ -72,16 +73,17 @@ main() {
   
   setup_alias
   
-  verify_program brew install_base_brew
+  # verify_program brew install_base_brew
   batch_install_brews
 
-  verify_program code install_vscode
+  # verify_program code install_vscode
 
   batch_install_casks
+  batch_install_gems
 
-  install_code_extensions
+  # install_code_extensions
 
-  # cleanup
+  # # cleanup
   brew cleanup --force
   rm -f -r /Library/Caches/Homebrew/*
   

@@ -1,12 +1,22 @@
+aliases=(
+  "alias ll='ls -Al'"
+  "alias bejs='bundle exec jekyll serve'"
+)
+
 function setup_alias {
-  ALIASLL=("alias ll='ls -Al'")
-  ALIASBEJS=("alias bejs='bundle exec jekyll serve'")
-  
-  if [[ -e ~/.bash_profile ]] && grep -qF "${ALIASLL[*]}" ~/.bash_profile; then
-    echo "ALIAS:: INSTALLED"
+  for ALIAS in "${aliases[@]}" 
+  do 
+    :
+    verify_alias "$ALIAS"
+  done
+}
+
+function verify_alias {
+  if [[ -e ~/.bash_profile ]] && grep -qF "$1" ~/.bash_profile; then
+    echo "ALIAS - "$1":: INSTALLED"
   else
-    echo "ALIAS:: NOT INSTALLED"
-    echo "${ALIASLL[*]}" >> ~/.bash_profile
+    echo "ALIAS - "$1":: NOT INSTALLED"
+    echo "($1)" >> ~/.bash_profile
     setup_alias
   fi
   
