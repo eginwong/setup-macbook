@@ -1,3 +1,5 @@
+#!/bin/bash
+
 casks=(
   calibre
   dropbox
@@ -31,8 +33,9 @@ function install_cask {
 # install all casks available in declared constant
 # @param casks
 function batch_install_casks {
-  for CASK in "${casks[@]}" 
-  do 
+  echo "INSTALLING CASKS"
+  for CASK in "${casks[@]}"
+  do
     :
     verify_cask "$CASK"
   done

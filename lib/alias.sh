@@ -1,21 +1,24 @@
+#!/bin/bash
+
 aliases=(
   "alias ll='ls -Al'"
   "alias bejs='bundle exec jekyll serve'"
 )
 
 function setup_alias {
-  for ALIAS in "${aliases[@]}" 
-  do 
+  for ALIAS in "${aliases[@]}"
+  do
     :
     verify_alias "$ALIAS"
   done
 }
 
 function verify_alias {
+  echo "INSTALLING ALIASES"
   if [[ -e ~/.bash_profile ]] && grep -qF "$1" ~/.bash_profile; then
-    echo "ALIAS - "$1":: INSTALLED"
+    echo "${1}:: INSTALLED"
   else
-    echo "ALIAS - "$1":: NOT INSTALLED"
+    echo "${1}:: NOT INSTALLED"
     echo "($1)" >> ~/.bash_profile
     setup_alias
   fi

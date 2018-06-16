@@ -8,7 +8,7 @@
 # `source <name_of_script>
 #
 # be proud of yourself.
-#########################
+##########################
 
 # METHODS
 create_dev_folder() {
@@ -27,7 +27,7 @@ install_vscode() {
   brew install homebrew/cask/visual-studio-code
 }
 
-## 
+##
 # Verify program method checks if program is installed on the system. If not, it will run the second parameter
 # which should be a method to install the desired program. Afterwards, the method will call itself to verify
 # that the program has actually been installed correctly.
@@ -47,22 +47,14 @@ verify_program() {
   fi
 }
 
-install_code_extensions() {
-  if [[ $(code --list-extensions | grep 'shakram02.bash-beautify' | head -c1 | wc -c) -eq 0 ]]; then
-    code --install-extension shakram02.bash-beautify
-    install_code_extensions
-  else
-    echo "VSCODE:: extensions installed"
-  fi
-}
-
 main() {
   # import other scripts
   . lib/alias.sh
   . lib/brews.sh
   . lib/casks.sh
   . lib/gems.sh
-
+  . lib/code_extensions.sh
+  
   # create main working folder
   cd ~ || exit
   
@@ -75,14 +67,13 @@ main() {
   
   # verify_program brew install_base_brew
   batch_install_brews
-
+  
   # verify_program code install_vscode
-
+  
   batch_install_casks
   batch_install_gems
-
-  # install_code_extensions
-
+  batch_install_code_extensions
+  
   # # cleanup
   brew cleanup --force
   rm -f -r /Library/Caches/Homebrew/*
@@ -94,12 +85,11 @@ main() {
 main
 
 # TODO: NODE AT LTS VERSION
-# gem install bundler
 # # TODO: git configs
 #   "merge.ff false"
 #   "pull.rebase true"
 #     "user.name pathikrit"
 #   "user.email pathikritbhowmick@msn.com"
 
-  # inspiration https://github.com/pathikrit/mac-setup-script/blob/master/setup.sh
-  # https://www.shellcheck.net/#
+# inspiration https://github.com/pathikrit/mac-setup-script/blob/master/setup.sh
+# https://www.shellcheck.net/#

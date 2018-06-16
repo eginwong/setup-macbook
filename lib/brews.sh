@@ -1,8 +1,12 @@
+#!/bin/bash
+
 brews=(
-  ruby
-  rbenv 
-  ruby-build
   node
+  ruby
+  rbenv
+  ruby-build
+  shellcheck
+  shfmt # for shell formatter
 )
 
 # verify if brew is present. If not, install. If yes, do nothing.
@@ -24,8 +28,9 @@ function install_brew {
 # install all brews available in declared constant
 # @param brews
 function batch_install_brews {
-  for BREW in "${brews[@]}" 
-  do 
+  echo "INSTALLING BREWS"
+  for BREW in "${brews[@]}"
+  do
     :
     verify_brew "$BREW"
   done
