@@ -1,6 +1,7 @@
 #!/bin/bash
 
 brews=(
+  # maven figure out alias for maven and mvn
   node
   ruby
   rbenv

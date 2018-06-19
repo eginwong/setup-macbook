@@ -54,6 +54,7 @@ main() {
   . lib/casks.sh
   . lib/gems.sh
   . lib/code_extensions.sh
+  . lib/npms.sh
   
   # create main working folder
   cd ~ || exit
@@ -73,6 +74,7 @@ main() {
   batch_install_casks
   batch_install_gems
   batch_install_code_extensions
+  batch_install_npms
   
   # # cleanup
   brew cleanup --force

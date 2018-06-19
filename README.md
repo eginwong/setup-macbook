@@ -6,3 +6,8 @@ I really like to automate painful processes, and a fresh install of mac does it 
 
 ## corpus
 Here's hoping this script is useful for anyone else. If not, meh, learned some more bash.
+
+## Reminders
+* Don't forget licenses for IntelliJ
+* Include settings.xml for mvn installations
+* Include vscode workspace settings
