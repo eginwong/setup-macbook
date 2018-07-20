@@ -2,12 +2,14 @@
 
 brews=(
   # maven figure out alias for maven and mvn
+  # graphviz figure out alias for graphviz and dot
   node
   ruby
   rbenv
   ruby-build
   shellcheck
   shfmt # for shell formatter
+  yarn
 )
 
 # verify if brew is present. If not, install. If yes, do nothing.
