@@ -10,6 +10,7 @@ brews=(
   shellcheck
   shfmt # for shell formatter
   yarn
+  wget
 )
 
 # verify if brew is present. If not, install. If yes, do nothing.
