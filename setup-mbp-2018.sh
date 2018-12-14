@@ -66,10 +66,10 @@ main() {
   
   setup_alias
   
-  # verify_program brew install_base_brew
+  verify_program brew install_base_brew
   batch_install_brews
   
-  # verify_program code install_vscode
+  verify_program code install_vscode
   
   batch_install_casks
   batch_install_gems
@@ -77,7 +77,7 @@ main() {
   batch_install_npms
   
   # # cleanup
-  brew cleanup --force
+  brew cleanup
   rm -f -r /Library/Caches/Homebrew/*
   
   # return to home

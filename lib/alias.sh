@@ -3,6 +3,8 @@
 aliases=(
   "alias ll='ls -Al'"
   "alias bejs='bundle exec jekyll serve'"
+  "export GEM_HOME=$HOME/gems" # to install ruby without permission issues
+  "export PATH=$HOME/gems/bin:$PATH" # to install ruby without permission issues
 )
 
 function setup_alias {
@@ -19,7 +21,7 @@ function verify_alias {
     echo "${1}:: INSTALLED"
   else
     echo "${1}:: NOT INSTALLED"
-    echo "($1)" >> ~/.bash_profile
+    echo "$1" >> ~/.bash_profile
     setup_alias
   fi
   
