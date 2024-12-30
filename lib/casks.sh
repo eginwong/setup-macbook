@@ -3,13 +3,11 @@
 casks=(
   calibre
   dropbox
-  gitkraken
   google-backup-and-sync # google-drive
   google-chrome
   insomnia
   intellij-idea
   java
-  skype
   slack
   steam
   transmission
